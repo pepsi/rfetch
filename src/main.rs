@@ -38,6 +38,13 @@ fn get_packages() -> Vec<u8> {
                 .output();
             return lines.unwrap().stdout;
         }
+if has("apk"){
+let lines = Command::new("sh")
+.arg("-c")
+.arg("apk info | wc -l")
+.output();
+return lines.unwrap().stdout; 
+}
     }
     return vec![255];
     // return "Could not detect Package manager";
@@ -102,8 +109,7 @@ fn main() {
     );
     let used = sys_info::mem_info().unwrap().total
         - sys_info::mem_info().unwrap().free
-        - sys_info::mem_info().unwrap().cached
-        - sys_info::mem_info().unwrap().swap_free;
+        - sys_info::mem_info().unwrap().cached;
     println!(
         "{} memory {}/{}",
         padding,
